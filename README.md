@@ -22,3 +22,7 @@ To explore how scientific knowledge about Workplace Health Promotion is related,
 - Cluster analysis with topic aggregations
 - Visual representation of knowledge
 - Research gap analysis
+
+### Project building instructions
+- Use python 3.6
+- install dependencies with `pip install -r requirements.txt`
