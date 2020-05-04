@@ -63,7 +63,7 @@ def parse_title(article):
 
 def get_dataframe(xmlfile='pubmed_result.xml'):
     """
-    Parses the Title and Abstract objects from a pubmed xml file, 
+    Parses the Title and Abstract objects from a pubmed xml file,
     as a Pandas Dataframe.
 
     Inputs:
