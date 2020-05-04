@@ -8,29 +8,34 @@ import matplotlib.pyplot as plt
 
 experiment_datetime_version = "2020-05-02-joem_v1"
 
-# loading data from xml
-data = pub.get_dataframe().dropna()
+# loading data from xml and dropping incomplete articles.
+data = pub.get_dataframe('pubmed_result.xml').dropna()
 
 # Extracting bag of word features
 vectorizer = CountVectorizer()
 features = vectorizer.fit_transform(data.abstract)
 
 # clusterizing features
-kmeans = KMeans(n_clusters=20, random_state=0).fit(X)
+kmeans = KMeans(n_clusters=20, random_state=0).fit(features)
 
 data["cluster"] = kmeans.labels_
 
 # Adding tsne vector coordinates
 dimensions = TSNE(n_components=2).fit_transform(features.toarray())
-data["coord_x"] =  dimensions[:,0]
-data["coord_y"] =  dimensions[:,1]
+data["coord_x"] = dimensions[:, 0]
+data["coord_y"] = dimensions[:, 1]
 
 # Saving scatterplot to image:
-plt.figure(figsize=(20,10))
-plt.ylim(-40,40)
+plt.figure(figsize=(20, 10))
+plt.ylim(-40, 40)
 groups = data.groupby("cluster")
 for name, group in groups:
-    plt.plot(group["coord_x"], group["coord_y"], marker="o", linestyle="", label=name)
+    plt.plot(
+        group["coord_x"],
+        group["coord_y"],
+        marker="o",
+        linestyle="",
+        label=name)
 plt.title("All JOEM Articles, displayed by cluster")
 plt.legend()
 plt.savefig(experiment_datetime_version + ".png")
