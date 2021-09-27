@@ -9,15 +9,15 @@ import xml.etree.ElementTree as ET
 from pandas import DataFrame
 
 
-def parse_articles(xmlfile='pubmed_result.xml', xmltag="Article"):
+def parse_pubmed_xml(xmlfile='pubmed_result.xml', xmltag="Article"):
     """
-    Parses a xml pubmed file into Article objects.
+    Parses a xml pubmed file into a list of objects of the xmltag.
     Inputs:
         - xmlfile (str): path+xml filename
-    Output: A list with "Article xml objects"
+    Output: A list with xml objects
 
     Example:
-        articles = parse_articles()
+        articles = parse_pubmed_xml(xmlfile='pubmed_result.xml', xmltag="PubmedArticle")
     """
     tree = ET.parse(xmlfile)
     return list(tree.iter(xmltag))
@@ -31,7 +31,7 @@ def parse_abstract(article):
     Output: A string with the Abstract object, or None if no Abstract is found.
 
     Example:
-        articles = parse_articles("pubmed_result.xml")
+        articles = parse_pubmed_xml("pubmed_result.xml", xmltag="Article")
         parse_abstract(articles[0])
     """
     abstract = article.findall('Abstract')
@@ -50,7 +50,7 @@ def parse_title(article):
     Output: A string with the Title object, or None if no Abstract is found.
 
     Example:
-        articles = parse_articles("pubmed_result.xml")
+        articles = parse_pubmed_xml("pubmed_result.xml", xmltag="Article")
         parse_title(articles[0])
     """
     title = article.findall('ArticleTitle')
@@ -74,6 +74,6 @@ def get_dataframe(xmlfile='pubmed_result.xml'):
     Example:
         data = get_dataframe('pubmed_result.xml')
     """
-    articles = parse_articles(xmlfile)
+    articles = parse_pubmed_xml(xmlfile)
     items = [(parse_title(item), parse_abstract(item)) for item in articles]
     return DataFrame(items, columns=["title", "abstract"])
