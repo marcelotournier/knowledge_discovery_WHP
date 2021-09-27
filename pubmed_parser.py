@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from pandas import DataFrame
 
 
-def parse_articles(xmlfile='pubmed_result.xml'):
+def parse_articles(xmlfile='pubmed_result.xml', xmltag="Article"):
     """
     Parses a xml pubmed file into Article objects.
     Inputs:
@@ -20,7 +20,7 @@ def parse_articles(xmlfile='pubmed_result.xml'):
         articles = parse_articles()
     """
     tree = ET.parse(xmlfile)
-    return list(tree.iter("Article"))
+    return list(tree.iter(xmltag))
 
 
 def parse_abstract(article):
